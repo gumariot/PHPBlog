@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="table-title" style="text-align: center;">
+        <h2>Livres</h2>
+    </div>
+
+    <table class="table-fill">
+        <thead>
+        <tr>
+            <th class="text-left">Titre</th>
+            <th class="text-left">Description</th>
+            <th class="text-left">Date</th>
+        </tr>
+        </thead>
+        <tbody class="table-hover">
+
+        <div style="margin:15px;text-align:center;display: flex;justify-content: space-around;">
+            <div>
+                <a href="/articles/">
+                    <button type="button" class="btn btn-outline-secondary hover-button">All</button>
+                </a>
+                {% for category in categories %}
+                    <a href="/articles/?id={{ category.getId() }}">
+                        <button id="{{ category.getId()}}" type="button" class="btn btn-outline-secondary hover-button">{{ category.getName() }}</button>
+                    </a>
+                {% endfor %}
+            </div>
+            <div>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="/admin/addArticle">
+                        <button type="button" class="btn btn-outline-secondary hover-button">Ajouter</button>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+        {% for article in articles%}
+            <tr>
+                <td class="text-left">{{ article.getTitle() }}</td>
+                <td class="text-left">{{ article.getDescription() }}</td>
+                <td class="text-left">{{ article.getDateParution()|date('d-m-Y H:i:s') }}</td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+{% endblock %}
+
+
+
